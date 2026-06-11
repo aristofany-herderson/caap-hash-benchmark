@@ -1,6 +1,6 @@
 <p id="title" align="center">
   <a href="#title">
-    <h1 align="center">Adaptative Hash Probing Study</h1>
+    <h1 align="center">Adaptive Hash Probing Study</h1>
   </a>
 </p>
 
@@ -31,9 +31,9 @@ Este projeto foi desenvolvido com as seguintes tecnologias e ferramentas:
 Clone o projeto e acesse a pasta do repositório:
 
 ```bash
-$ git clone https://github.com/aristofany-herderson/adaptative-hash-probing 
+$ git clone https://github.com/aristofany-herderson/adaptive-hash-probing 
 
-$ cd adaptative-hash-probing
+$ cd adaptive-hash-probing
 ```
 
 Para compilar e executar a suíte de benchmarks, siga os passos abaixo:
