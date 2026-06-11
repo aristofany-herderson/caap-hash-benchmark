@@ -9,7 +9,6 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import pandas as pd
 
-
 METRICS = [
     ("avg_insert_probes", "Media de sondas por insercao"),
     ("avg_search_success_probes", "Media de sondas por busca bem-sucedida"),

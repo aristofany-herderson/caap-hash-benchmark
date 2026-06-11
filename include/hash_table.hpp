@@ -7,10 +7,12 @@
 #include <string>
 #include <vector>
 
-namespace hp {
+namespace hp
+{
 
-class HashTableStrategy {
-public:
+  class HashTableStrategy
+  {
+  public:
     virtual ~HashTableStrategy() = default;
 
     virtual bool insert(uint64_t key) = 0;
@@ -22,20 +24,20 @@ public:
     virtual double load_factor() const = 0;
 
     virtual void reset_metrics() = 0;
-    virtual const TableMetrics& metrics() const = 0;
+    virtual const TableMetrics &metrics() const = 0;
     virtual void refresh_cluster_metric() = 0;
 
     virtual std::string name() const = 0;
     virtual std::string description() const = 0;
-};
+  };
 
-using HashTablePtr = std::unique_ptr<HashTableStrategy>;
+  using HashTablePtr = std::unique_ptr<HashTableStrategy>;
 
-HashTablePtr make_linear_probing(size_t capacity);
-HashTablePtr make_locally_linear(size_t capacity, double target_alpha);
-HashTablePtr make_walkfirst(size_t capacity, double target_alpha);
-HashTablePtr make_adaptive_local(size_t capacity, double target_alpha, size_t cluster_threshold);
+  HashTablePtr make_linear_probing(size_t capacity);
+  HashTablePtr make_locally_linear(size_t capacity, double target_alpha);
+  HashTablePtr make_walkfirst(size_t capacity, double target_alpha);
+  HashTablePtr make_adaptive_local(size_t capacity, double target_alpha, size_t cluster_threshold);
 
-std::vector<HashTablePtr> all_strategies(size_t capacity, double target_alpha);
+  std::vector<HashTablePtr> all_strategies(size_t capacity, double target_alpha);
 
-}  // namespace hp
+} // namespace hp
