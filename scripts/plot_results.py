@@ -212,7 +212,7 @@ def plot_scalability(agg: pd.DataFrame, out_dir: Path) -> None:
                 capsize=3,
             )
         ax.set_xscale("log", base=2)
-        ax.set_xlabel("Tamanho da tabela (log₂)")
+        ax.set_xlabel("Tamanho da tabela ($\log_2$)")
         ax.set_title(label, fontsize=8)
         ax.tick_params(axis="x", rotation=20)
 
