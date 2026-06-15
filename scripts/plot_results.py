@@ -28,15 +28,15 @@ PALETTE = {
     "LinearProbing": "#e41a1c",
     "LocallyLinear": "#377eb8",
     "WalkFirst":     "#4daf4a",
-    "AdaptiveLocal": "#ff7f00",
+    "CAAP": "#ff7f00",
 }
 MARKERS = {
     "LinearProbing": "o",
     "LocallyLinear": "s",
     "WalkFirst":     "^",
-    "AdaptiveLocal": "D",
+    "CAAP": "D",
 }
-ORDER = ["LinearProbing", "LocallyLinear", "WalkFirst", "AdaptiveLocal"]
+ORDER = ["LinearProbing", "LocallyLinear", "WalkFirst", "CAAP"]
 
 sns.set_theme(style="whitegrid", font_scale=1.05)
 

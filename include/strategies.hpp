@@ -542,7 +542,7 @@ namespace hp
       metrics_.max_cluster = compute_max_cluster(table_.data(), capacity_, kEmptyKey);
     }
 
-    std::string name() const override { return "AdaptiveLocal"; }
+    std::string name() const override { return "CAAP"; }
     std::string description() const override
     {
       return "CAAP v2: LP classico em baixa ocupacao local; two-way ao detectar cluster (busca dual-path).";
