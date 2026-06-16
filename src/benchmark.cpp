@@ -1,7 +1,4 @@
-// benchmark.cpp  —  CAAP Benchmark Suite
-// Compile:  g++ -std=c++17 -O2 -Wall -Wextra -Iinclude src/benchmark.cpp -o build/benchmark
-// Quick run: ./build/benchmark --quick
-// Full run:  ./build/benchmark
+
 
 #include "hash_table.hpp"
 #include "strategies.hpp"
@@ -20,13 +17,9 @@
 namespace
 {
 
-  // ─────────────────────────────────────────────────────────────────────────────
-  //  Configuration
-  // ─────────────────────────────────────────────────────────────────────────────
-
   struct BenchConfig
   {
-    // ── Main sweep ────────────────────────────────────────────────────────────
+
     std::vector<size_t> table_sizes = {4096, 16384, 65536, 262144, 1048576};
     std::vector<double> load_factors = {
         0.20, 0.30, 0.40, 0.50, 0.60,
@@ -35,7 +28,6 @@ namespace
         42, 123, 456, 789, 2025,
         31415, 65537, 99999, 777777, 888888};
 
-    // ── Parameter sweep (AdaptiveLocal only) ─────────────────────────────────
     std::vector<size_t> ct_values = {2, 4, 6, 8, 10, 12, 16, 20, 24};
     std::vector<double> bf_values = {0.70, 0.75, 0.80, 0.85, 0.90, 0.95};
     size_t sweep_tsize = 65536;
@@ -45,10 +37,6 @@ namespace
     bool quick = false;
     bool no_sweep = false;
   };
-
-  // ─────────────────────────────────────────────────────────────────────────────
-  //  Row structures
-  // ─────────────────────────────────────────────────────────────────────────────
 
   struct MainRow
   {
@@ -84,10 +72,6 @@ namespace
     double insert_ms;
     size_t aux_memory_bytes;
   };
-
-  // ─────────────────────────────────────────────────────────────────────────────
-  //  Helpers
-  // ─────────────────────────────────────────────────────────────────────────────
 
   BenchConfig parse_args(int argc, char **argv)
   {
@@ -132,7 +116,6 @@ namespace
     return keys;
   }
 
-  /// Run one complete trial and return filled MainRow.
   MainRow run_main_trial(hp::HashTableStrategy &table,
                          const std::vector<uint64_t> &insert_keys,
                          const std::vector<uint64_t> &absent_keys,
@@ -145,10 +128,10 @@ namespace
     for (uint64_t k : insert_keys)
       table.insert(k);
     auto t1 = std::chrono::steady_clock::now();
-    // successful searches (all inserted keys)
+
     for (uint64_t k : insert_keys)
       table.search(k);
-    // failed searches (keys guaranteed absent)
+
     for (uint64_t k : absent_keys)
       table.search(k);
     auto t2 = std::chrono::steady_clock::now();
@@ -173,10 +156,6 @@ namespace
         ins_ms, srch_ms,
         m.auxiliary_memory_bytes};
   }
-
-  // ─────────────────────────────────────────────────────────────────────────────
-  //  CSV writers
-  // ─────────────────────────────────────────────────────────────────────────────
 
   void write_main_csv(const std::string &path, const std::vector<MainRow> &rows)
   {
@@ -237,7 +216,6 @@ namespace
           << r.aux_memory_bytes << '\n';
   }
 
-  // Simple inline progress bar
   void progress(size_t done, size_t total, const std::string &tag)
   {
     int pct = static_cast<int>(100.0 * done / total);
@@ -252,11 +230,7 @@ namespace
       std::cout << '\n';
   }
 
-} // anonymous namespace
-
-// ─────────────────────────────────────────────────────────────────────────────
-//  main
-// ─────────────────────────────────────────────────────────────────────────────
+}
 
 int main(int argc, char **argv)
 {
@@ -273,11 +247,6 @@ int main(int argc, char **argv)
 #else
   std::system(("mkdir -p " + cfg.output_dir).c_str());
 #endif
-
-  // ─────────────────────────────────────────────────────────────────────────
-  //  Phase 1 – Main sweep
-  //  All 4 strategies × all table sizes × all load factors × all seeds
-  // ─────────────────────────────────────────────────────────────────────────
 
   std::vector<MainRow> main_rows;
   {
@@ -300,7 +269,6 @@ int main(int argc, char **argv)
           std::mt19937_64 rng(seed);
           auto ins_keys = shuffled_keys(n_keys, rng);
 
-          // Absent keys: values safely beyond table range
           size_t n_absent = n_keys / 10 + 1;
           auto abs_keys = shuffled_keys(n_absent, rng);
           for (auto &k : abs_keys)
@@ -321,11 +289,6 @@ int main(int argc, char **argv)
   const std::string main_csv = cfg.output_dir + "/benchmark_main.csv";
   write_main_csv(main_csv, main_rows);
   std::cout << "  Saved: " << main_csv << "  (" << main_rows.size() << " rows)\n";
-
-  // ─────────────────────────────────────────────────────────────────────────
-  //  Phase 2 – Parameter sweep
-  //  AdaptiveLocal only, grid over cluster_threshold × block_fill_limit
-  // ─────────────────────────────────────────────────────────────────────────
 
   if (!cfg.no_sweep)
   {

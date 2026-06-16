@@ -64,4 +64,4 @@ namespace hp
     return (rng() & 1ULL) != 0;
   }
 
-} // namespace hp
+}

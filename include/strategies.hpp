@@ -13,10 +13,6 @@ namespace hp
 
   constexpr uint64_t kEmptyKey = std::numeric_limits<uint64_t>::max();
 
-  // ═══════════════════════════════════════════════════════════════════════════
-  //  LinearProbingTable  —  baseline
-  // ═══════════════════════════════════════════════════════════════════════════
-
   class LinearProbingTable : public HashTableStrategy
   {
   public:
@@ -100,10 +96,6 @@ namespace hp
     size_t size_ = 0;
     mutable TableMetrics metrics_;
   };
-
-  // ═══════════════════════════════════════════════════════════════════════════
-  //  LocallyLinearTable  —  LOCALLYLINEAR (Dalal et al. 2023)
-  // ═══════════════════════════════════════════════════════════════════════════
 
   class LocallyLinearTable : public HashTableStrategy
   {
@@ -297,10 +289,6 @@ namespace hp
     mutable std::mt19937_64 rng_;
   };
 
-  // ═══════════════════════════════════════════════════════════════════════════
-  //  WalkFirstTable  —  WALKFIRST (Dalal et al. 2023)
-  // ═══════════════════════════════════════════════════════════════════════════
-
   class WalkFirstTable : public HashTableStrategy
   {
   public:
@@ -426,13 +414,7 @@ namespace hp
     mutable std::mt19937_64 rng_;
   };
 
-  // ═══════════════════════════════════════════════════════════════════════════
-  //  AdaptiveLocalTable  —  CAAP (Cluster-Aware Adaptive Probing)
   //
-  //  FIX (v2): search now uses dual-path (h1 + h2) to avoid false negatives
-  //  when a key was placed by the two-way path and is unreachable from h1
-  //  alone.  block_fill_limit is now a constructor parameter (default 0.85).
-  // ═══════════════════════════════════════════════════════════════════════════
 
   class AdaptiveLocalTable : public HashTableStrategy
   {
@@ -464,24 +446,18 @@ namespace hp
                       ? 1.0
                       : static_cast<double>(block_loads_[bid]) / static_cast<double>(cells);
 
-      // Use cheap linear probing while the neighbourhood is uncrowded,
-      // switch to WalkFirst-style two-way probing when a cluster forms.
       if (local_cluster < cluster_threshold_ && bf < block_fill_limit_)
         return insert_linear(h1, key);
       return insert_two_way(key);
     }
 
-    // ── Dual-path search (v2 correctness fix) ─────────────────────────────
-    // A key may reside anywhere reachable from h1(k) OR h2(k) by linear
-    // probing.  We walk both chains in lock-step until the key is found or
-    // both chains terminate at an empty cell.
     bool search(uint64_t key) const override
     {
       uint64_t probes = 0;
       size_t idx1 = static_cast<size_t>(hash1(key, capacity_));
       size_t idx2 = static_cast<size_t>(hash2(key, capacity_));
       bool a1 = true;
-      bool a2 = (idx1 != idx2); // skip duplicate start
+      bool a2 = (idx1 != idx2);
 
       while (a1 || a2)
       {
@@ -549,8 +525,6 @@ namespace hp
     }
 
   private:
-    // ── helpers ──────────────────────────────────────────────────────────────
-
     size_t measure_forward_cluster(size_t start) const
     {
       size_t count = 0, idx = start;
@@ -631,10 +605,6 @@ namespace hp
     mutable std::mt19937_64 rng_;
   };
 
-  // ═══════════════════════════════════════════════════════════════════════════
-  //  Factory functions
-  // ═══════════════════════════════════════════════════════════════════════════
-
   inline HashTablePtr make_linear_probing(size_t capacity)
   {
     return HashTablePtr(new LinearProbingTable(capacity));
@@ -668,4 +638,4 @@ namespace hp
     return s;
   }
 
-} // namespace hp
+}

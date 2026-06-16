@@ -37,12 +37,10 @@ namespace hp
   HashTablePtr make_locally_linear(size_t capacity, double target_alpha);
   HashTablePtr make_walkfirst(size_t capacity, double target_alpha);
 
-  /// block_fill_limit: threshold on block occupancy above which two-way kicks in (default 0.85)
   HashTablePtr make_adaptive_local(size_t capacity, double target_alpha,
                                    size_t cluster_threshold,
                                    double block_fill_limit = 0.85);
 
-  /// Returns the four canonical strategies with default CAAP parameters.
   std::vector<HashTablePtr> all_strategies(size_t capacity, double target_alpha);
 
-} // namespace hp
+}

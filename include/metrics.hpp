@@ -103,4 +103,4 @@ namespace hp
     return max_run;
   }
 
-} // namespace hp
+}
