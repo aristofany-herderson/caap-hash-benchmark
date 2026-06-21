@@ -148,7 +148,7 @@ Saída: `results/benchmark_params.csv`. Esta fase pode ser ignorada com `--no-sw
 
 Abaixo está o diagrama macro estrutural de funcionamento:
 
-<img width="600" src="./hash-strategies.svg">
+<img width="100%" src="./hash-strategies.svg">
 
 ---
 
@@ -309,8 +309,6 @@ FARACH-COLTON, M.; KRAPIVIN, A.; KUSZMAUL, W. **Optimal Bounds for Open Addressi
 MELIS, G. **Adaptive Hashing: Faster Hash Functions with Fewer Collisions**. arXiv:2602.05925, 2026.
 
 WANG, Q. **The Bathroom Model: A Realistic Approach to Hash Table Algorithm Optimization**. arXiv:2502.10977, 2025.
-
-MENEZES, A. H. G. S.; ALMEIDA, J. S.; SILVA, L. G. A. **Uma Análise Experimental de Estratégias Baseadas em Sondagem Linear para Redução de Clustering em Tabelas Hash**. Universidade Federal do Rio Grande do Norte, 2026.
 
 <br />
 
