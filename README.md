@@ -1,5 +1,6 @@
 <p id="title" align="center">
   <a href="#title">
+    <img width="80" height="80" src="./logo.png" >
     <h1 align="center">CAAP - Cluster-Aware Adaptive Probing</h1>
   </a>
 </p>
